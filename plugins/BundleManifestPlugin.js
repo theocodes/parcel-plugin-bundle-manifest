@@ -7,7 +7,7 @@ module.exports = function (bundler) {
 
   /**
    * Read the paths already registered within the manifest.json
-   * @param {string} path 
+   * @param {string} path
    * @returns {Object}
    */
   const readManifestJson = (path) => {
@@ -20,22 +20,22 @@ module.exports = function (bundler) {
 
     try {
       return JSON.parse(fs.readFileSync(path, 'utf8'));
-    } catch(e) {
+    } catch (e) {
       logger.error('manifest file is invalid');
-      throw e; 
+      throw e;
     }
   };
 
   /**
    * Feed the manifest exploring childBundles recursively
-   * @param {Bundle} bundle 
-   * @param {Object} manifestValue 
-   * @param {string} publicURL 
+   * @param {Bundle} bundle
+   * @param {Object} manifestValue
+   * @param {string} publicURL
    */
   const feedManifestValue = (bundle, manifestValue, publicURL) => {
     let output = path.join(publicURL, path.basename(bundle.name));
     let input = bundle.entryAsset ? bundle.entryAsset.basename : bundle.assets.values().next().value.basename;
-    if(!manifestValue[input]) {
+    if (!manifestValue[input]) {
       manifestValue[input] = output;
       logger.status('✓', `  bundle : ${input} => ${output}`);
     }
@@ -48,7 +48,7 @@ module.exports = function (bundler) {
     const dir = bundle.entryAsset.options.outDir;
     const publicURL = bundle.entryAsset.options.publicURL;
 
-    const manifestPath = path.resolve(dir, 'parcel-manifest.json');
+    const manifestPath = path.resolve(dir, 'manifest.json');
     const manifestValue = {}
 
     logger.status('📦', 'PackageManifestPlugin');
